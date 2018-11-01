@@ -241,11 +241,11 @@ func TestInsertTwiceAndUpdateDeepIntersectionLargeHeight(t *testing.T) {
 	toInsert2[0].Value = []byte{0x02}
 	log.Println("Inserting the first node")
 	path := csmt.ApplyInserts(toInsert)
-	cache.Print()
+	// cache.Print()
 	filtered := path.FilterPath(4, 0)
 	log.Println("Inserting the second node")
 	path2 := csmt.ApplyInserts(toInsert2)
-	cache.Print()
+	// cache.Print()
 	joined, err := filtered.UpdateProof(0, path2)
 	if err != nil {
 		t.Fatal("Failed to update a proof")
@@ -277,11 +277,11 @@ func TestInsertTwiceAndUpdateDeepIntersection(t *testing.T) {
 	toInsert2[0].Value = []byte{0x02}
 	log.Println("Inserting the first node")
 	path := csmt.ApplyInserts(toInsert)
-	cache.Print()
+	// cache.Print()
 	filtered := path.FilterPath(2, 0)
 	log.Println("Inserting the second node")
 	path2 := csmt.ApplyInserts(toInsert2)
-	cache.Print()
+	// cache.Print()
 	joined, err := filtered.UpdateProofImproved(0, path2)
 	if err != nil {
 		t.Fatal("Failed to update a proof")
@@ -291,44 +291,6 @@ func TestInsertTwiceAndUpdateDeepIntersection(t *testing.T) {
 		t.Fatal("Joined root hash and original root hash did not match")
 	}
 	err = joined.VefiryPath(2, 0, []byte{0x01}, path2[0].Value)
-	if err != nil {
-		t.Fatal("Proof did not match")
-	}
-}
-
-func TestInsertTwiceWithMultipleInserts(t *testing.T) {
-	cache := make(CacheBranch)
-	csmt := new(CSMT)
-	csmt.cache = &cache
-	csmt.Height = 4
-	csmtLevel := new(CSMTLevel)
-	csmtLevel.cache = &cache
-	csmtLevel.MaxLevel = 4
-	csmt.Root = csmtLevel
-	toInsert := make(InsertionIndexes, 1)
-	toInsert[0].Index = 0
-	toInsert[0].Value = []byte{0x01}
-	toInsert2 := make(InsertionIndexes, 2)
-	toInsert2[0].Index = 5
-	toInsert2[0].Value = []byte{0x02}
-	toInsert2[1].Index = 11
-	toInsert2[1].Value = []byte{0x03}
-	log.Println("Inserting the first node")
-	path := csmt.ApplyInserts(toInsert)
-	cache.Print()
-	filtered := path.FilterPath(4, 0)
-	log.Println("Inserting the second node")
-	path2 := csmt.ApplyInserts(toInsert2)
-	cache.Print()
-	joined, err := filtered.UpdateProof(0, path2)
-	if err != nil {
-		t.Fatal("Failed to update a proof")
-		return
-	}
-	if bytes.Compare(path2[0].Value, joined[0].Value) != 0 {
-		t.Fatal("Joined root hash and original root hash did not match")
-	}
-	err = joined.VefiryPath(4, 0, []byte{0x01}, path2[0].Value)
 	if err != nil {
 		t.Fatal("Proof did not match")
 	}
@@ -353,11 +315,11 @@ func TestInsertTwiceWithMultipleInsertsRewrite(t *testing.T) {
 	toInsert2[1].Value = []byte{0x03}
 	log.Println("Inserting the first node")
 	path := csmt.ApplyInserts(toInsert)
-	cache.Print()
+	// cache.Print()
 	filtered := path.FilterPath(4, 0)
 	log.Println("Inserting the second node")
 	path2 := csmt.ApplyInserts(toInsert2)
-	cache.Print()
+	// cache.Print()
 	joined, err := filtered.UpdateProofImproved(0, path2)
 	if err != nil {
 		t.Fatal("Failed to update a proof")
